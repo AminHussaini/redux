@@ -29,7 +29,6 @@ const cartSlice = createSlice({
       }
     },
     removeFromCart: (state, action) => {
-      
       let currentId = action.payload;
       const exitingItem = state.itemsList.find(
         (item) => item.id === currentId
