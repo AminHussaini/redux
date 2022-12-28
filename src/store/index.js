@@ -1,27 +1,25 @@
-import { createStore } from "redux";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-// We need to create a reducer function because we need to set the state and action.
-const reducerFn = (state = { counter: 10 }, action) => {
-  
-  // rules
-  // synchronous Function
-  // we should not mutate the original state
-
-  // Increment 
-  if (action.type === "incr") { 
-    return {counter: state.counter + 1};
+const counterSlice = createSlice({
+  name: "counter",
+  initialState: {
+    counter: 0,
+  },
+  reducers: {
+    increment: (state, action) => {
+      state.counter++ 
+    },
+    decrement: (state, action) => {
+      state.counter--
+    },
+    addBy: (state, action) => {
+      state.counter += action.payload
+    },
   }
-  // Decrement 
-  if (action.type === "decre") {
-    return {counter: state.counter - 1};
-  }
-  // Add Number
-  if (action.type === "add") {
-    return {counter: state.counter + action.addValue };
-  }
-  return state;
-};
-
-const store = createStore(reducerFn);
+})
+export const actions = counterSlice.actions;
+const store = configureStore({
+  reducer: counterSlice.reducer
+})
 
 export default store;
