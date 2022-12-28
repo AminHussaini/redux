@@ -1,21 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
-
-import { actions } from "./store/index";
+import React from "react";
+import "./App.css";
+import Auth from "./components/Auth";
+import Layout from "./components/Layout";
+import { useSelector } from "react-redux";
 
 function App() {
-  const counter = useSelector((state) => state.counter);
-  const dispatch = useDispatch((state) => state.counter);
-  const increment = () => dispatch(actions.increment);
-  const decrement = () => dispatch(actions.decrement);
-  const add = () => dispatch(actions.addBy(10));
-  return (
-    <div className="App">
-      <h1>Counter APP {counter}</h1>
-      <button onClick={() => increment()}>Increment</button>
-      <button onClick={() => decrement()}>Decrement</button>
-      <button onClick={() => add()}>Add 10 Number</button>
-    </div>
-  );
+  // console.log(
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  console.log(isLoggedIn);
+  return <div className="App">{isLoggedIn ? <Layout /> : <Auth />}</div>;
 }
 
 export default App;
