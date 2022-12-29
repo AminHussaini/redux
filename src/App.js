@@ -57,7 +57,7 @@ function App() {
         })
       );
     });
-  }, [cart]);
+  }, [cart,dispatch]);
 
   console.log(isLoggedIn);
   return (
