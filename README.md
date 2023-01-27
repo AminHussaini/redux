@@ -46,4 +46,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Channel
-https://www.youtube.com/watch?v=NqzdVN2tyvQ&t=925s&ab_channel=DaveGray
+https://www.yout-ube.com/watch?v=NqzdVN2tyvQ&t=925s&ab_channel=DaveGray

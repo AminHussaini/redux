@@ -8,6 +8,9 @@ import './index.css';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
+// office Fire base
+// https://shopping-bcd0a-default-rtdb.firebaseio.com
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
