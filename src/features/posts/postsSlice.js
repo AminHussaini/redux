@@ -41,7 +41,7 @@ const initialState = {
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => { 
   try {
     const res = await axios.get(postUrl);
-    console.log(res);
+    
     return[...res.data]
   } catch (err) { 
     return err.message;
@@ -84,13 +84,13 @@ const postsSlice = createSlice({
     },
     extraReducers(builder) {
       builder.addCase(fetchPosts.fulfilled, (state, action) => {
-        state.status = "Loading"
+        state.status = "loading"
       }).addCase(fetchPosts.pending, (state, action) => {
-        state.status = "Success"
+        state.status = "success"
         // 
         console.log(action.payload)
       }).addCase(fetchPosts.rejected, (state, action) => {
-        state.status = "Failed"
+        state.status = "failed"
         state.error = action.error.message
       })
     }
@@ -104,8 +104,8 @@ export const {postAdded,reactionAdded} = postsSlice.actions;
 export const selectAllPosts = (state) => state.posts.posts;
 
 // 
-export const selectPostStatus = (state) => state.posts.status;
+export const getPostsStatus = (state) => state.posts.status;
 
-export const getPostError = (state) => state.posts.error;
+export const getPostsError = (state) => state.posts.error;
 
 export default postsSlice.reducer;
