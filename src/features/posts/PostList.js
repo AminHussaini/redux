@@ -1,27 +1,40 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PostAuthor from "./PostAuthor";
-import { selectAllPosts,getPostsError , getPostsStatus,fetchPosts  } from "./postsSlice";
+import { selectAllPosts,getPostsError , getPostsStatus,fetchPosts } from "./postsSlice";
 import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 
 const PostList = () => {
+  const dispatch = useDispatch();
+
   const posts = useSelector(selectAllPosts);
   const postStatus = useSelector(getPostsStatus);
   const getErrors = useSelector(getPostsError);
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (postStatus === "idle") dispatch(fetchPosts());
-    console.log({posts})
-  }, [postStatus, dispatch])
+  const fetching_posts = async () => {
+    const data = await dispatch(fetchPosts());
+    console.log(posts);
+    return data;
+  }
+      
+  useEffect( () => {
+    if (postStatus === "idle") {
+      console.log("in")
+      fetching_posts();
+    
+    }
+    }, [postStatus, dispatch])
   
-  let content = [0];
+  let content = [];
   if (postStatus === "loading") {
+    console.log("loading ",posts);
     content = <p> loading... </p>;
   } else if (postStatus === "success") {
     // sort with date
+    console.log("post ", posts);
+    
+    
     const renderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
     content  = renderedPosts.map((post) => (
       <article key={post.id}>
@@ -34,7 +47,9 @@ const PostList = () => {
         <ReactionButtons post={post}/>
       </article>
     ));
-  } else { 
+
+  } else if (postStatus === "failed") { 
+    console.log("error",postStatus , getErrors);
     content = <p> { getErrors } </p>;
   }
 

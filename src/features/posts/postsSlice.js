@@ -41,7 +41,7 @@ const initialState = {
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => { 
   try {
     const res = await axios.get(postUrl);
-    
+    console.log("Slicer post " ,res.data)
     return[...res.data]
   } catch (err) { 
     return err.message;
@@ -86,7 +86,7 @@ const postsSlice = createSlice({
       builder.addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "loading"
       }).addCase(fetchPosts.pending, (state, action) => {
-        state.status = "success"
+        state.status = "succeeded"
         // 
         console.log(action.payload)
       }).addCase(fetchPosts.rejected, (state, action) => {
