@@ -47,3 +47,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Channel
 https://www.yout-ube.com/watch?v=NqzdVN2tyvQ&t=925s&ab_channel=DaveGray
+
+## Repo 
+https://github.com/gitdagray/react_redux_toolkit/blob/main/
