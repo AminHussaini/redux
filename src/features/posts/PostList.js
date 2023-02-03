@@ -30,23 +30,24 @@ const PostList = () => {
   if (postStatus === "loading") {
     console.log("loading ",posts);
     content = <p> loading... </p>;
-  } else if (postStatus === "success") {
+  } else if (postStatus === "succeeded") {
     // sort with date
-    console.log("post ", posts);
+    // console.log("post ", posts);
     
     
     const renderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
-    content  = renderedPosts.map((post) => (
-      <article key={post.id}>
-        <h3>{post.title}</h3>
-        <p>{post.content.substring(0,100)}</p>
-        <p className="postCredit">
-          <PostAuthor userId={post.userId} />
-          <TimeAgo timestamp={post.date} />
-        </p>
-        <ReactionButtons post={post}/>
-      </article>
-    ));
+    console.log({renderedPosts})
+    // content = renderedPosts.map((post) => (
+    //   <article key={post.id}>
+    //     <h3>{post.title}</h3>
+    //     <p>{post.content.substring(0,100)}</p>
+    //     <p className="postCredit">
+    //       <PostAuthor userId={post.userId} />
+    //       <TimeAgo timestamp={post.date} />
+    //     </p>
+    //     <ReactionButtons post={post}/>
+    //   </article>
+    // ));
 
   } else if (postStatus === "failed") { 
     console.log("error",postStatus , getErrors);
