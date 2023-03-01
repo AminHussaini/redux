@@ -29,7 +29,7 @@ import { sub } from "date-fns";
 //     coffee: 0,
 //   },
 // },
-console.log(sub(new Date(), { minutes: 5 }).toISOString())
+console.log(sub(new Date(), { minutes: 5 }).toISOString());
 const postUrl =
   "https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost.json";
 
@@ -42,13 +42,43 @@ const initialState = {
 // try catch method
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
-    const response = await axios.get(postUrl)
-    console.log("Try ", response.data)
-    return response.data
+    const response = await axios.get(postUrl);
+    return response.data;
   } catch (err) {
     return err.message;
   }
 });
+
+export const publishPost = createAsyncThunk(
+  "posts/publishPost",
+  async (val) => {
+    try {
+      let { title, content, userId } = val;
+      let items = [
+          ...initialState.posts,
+          {
+            id: nanoid(),
+            userId,
+            title,
+            content,
+            reactions: {
+              thumbsUp: 0,
+              wow: 0,
+              heart: 0,
+              rocket: 0,
+              coffee: 0,
+            },
+            date: new Date().toISOString(),
+          },
+        ];
+      const data = await axios.put(postUrl, items);
+      return items;
+    } catch (err) {
+      console.log({ err });
+      return err.message;
+    }
+  }
+);
 
 const postsSlice = createSlice({
   name: "posts",
@@ -89,20 +119,27 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.pending, (state, action) => {
         console.log("pending");
-       
+
         state.status = "loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         // Adding date and reactions
         console.log("fulfilled");
-        console.log(action.payload)
-        state.posts.push(action.payload);
+        console.log(action.payload);
+        if (action.payload !== null) {
+          console.log("asd");
+          state.posts = action.payload;
+        }
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
         console.log("rejected");
+      })
+      .addCase(publishPost.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        console.log("PublishPost succeeded");
       });
   },
 });
