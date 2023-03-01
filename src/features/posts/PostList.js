@@ -36,7 +36,7 @@ const PostList = () => {
     
     
     console.log(posts)
-    const renderedPosts = posts?.items?.slice()?.sort((a, b) => b.date.localeCompare(a.date));
+    const renderedPosts = posts?.slice()?.sort((a, b) => b.date.localeCompare(a.date));
     console.log({renderedPosts})
     content = renderedPosts.map((post) => (
       <article key={post.id}>
