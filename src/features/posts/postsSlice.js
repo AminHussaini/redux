@@ -38,7 +38,6 @@ const initialState = {
   status: "idle", //'idle'  | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
-console.log("Re ",initialState)
 
 // try catch method
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
@@ -50,6 +49,18 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   }
 });
 
+export const UpdateReactions = createAsyncThunk(
+  "posts/UpdateReactions",
+  async (val) => {
+    try {
+      const response = await axios.get(postUrl);
+      console.log({response})
+    } catch (err) {
+      console.log({ err });
+      return err.message;
+    }
+  }
+);
 export const publishPost = createAsyncThunk(
   "posts/publishPost",
   async (val) => {
@@ -72,7 +83,6 @@ export const publishPost = createAsyncThunk(
           }
         ;
       const data = await axios.post(postUrl, items);
-      console.log({data})
       return items;
     } catch (err) {
       console.log({ err });
@@ -108,13 +118,42 @@ const postsSlice = createSlice({
         };
       },
     },
-    reactionAdded(state, action) {
-      const { postId, reaction } = action.payload;
-      const existingPost = state.posts.find((post) => post.id === postId);
-      if (existingPost) {
-        existingPost.reactions[reaction]++;
-      }
-    },
+    // reactionAdded= (state, action) => {
+    //   const { postId, reaction } = action.payload;
+    //   // const response = await axios.get(postUrl);
+    //   console.log(postId, reaction)
+    //   async (val) => {
+    //     try {
+    //       let { title, content, userId } = val;
+    //       let items = 
+    //           {
+    //             id: nanoid(),
+    //             userId,
+    //             title,
+    //             content,
+    //             reactions: {
+    //               thumbsUp: 0,
+    //               wow: 0,
+    //               heart: 0,
+    //               rocket: 0,
+    //               coffee: 0,
+    //             },
+    //             date: new Date().toISOString(),
+    //           }
+    //         ;
+    //       const data = await axios.post(postUrl, items);
+    //       return items;
+    //     } catch (err) {
+    //       console.log({ err });
+    //       return err.message;
+    //     }
+    //   }
+    //   // const existingPost = state.posts.find((post) => post.id === postId);
+    //   // if (existingPost) {
+    //   //   console.log("2 ", postId, reaction)
+    //   //   existingPost.reactions[reaction]++;
+    //   // }
+    // },
   },
   extraReducers(builder) {
     builder
@@ -131,21 +170,17 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-        console.log("rejected");
       })
       .addCase(publishPost.fulfilled, (state, action) => {
-        console.log("State ", state.posts);
-        console.log(action["payload"]);
         state.status = "succeeded";
         // state.posts =  [state.posts, action["payload"]];
         state.posts.push(action.payload);
-        console.log("PublishPost succeeded ",state.posts);
-      });
+      })
   },
 });
 
 // Add the post
-export const { postAdded, reactionAdded } = postsSlice.actions;
+export const { postAdded } = postsSlice.actions;
 
 // For all the post
 export const selectAllPosts = (state) => state.posts.posts;

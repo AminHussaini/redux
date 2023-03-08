@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PostAuthor from "./PostAuthor";
-import { selectAllPosts,getPostsError , getPostsStatus,fetchPosts } from "./postsSlice";
+import {
+  selectAllPosts,
+  getPostsError,
+  getPostsStatus,
+  fetchPosts,
+} from "./postsSlice";
 import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 
@@ -14,28 +19,24 @@ const PostList = () => {
 
   const fetching_posts = async () => {
     const data = await dispatch(fetchPosts());
-    console.log(posts);
     return data;
-  }
-      
-  useEffect( () => {
+  };
+
+  useEffect(() => {
     if (postStatus === "idle") {
-      console.log("fetching_posts")
       fetching_posts();
-    
     }
-    }, [postStatus, dispatch])
-  
+  }, [postStatus, dispatch]);
+
   let content = [];
   if (postStatus === "loading") {
-    console.log("loading ",posts);
     content = <p> loading... </p>;
   } else if (postStatus === "succeeded") {
     // sort with date
-    console.log("ALl  ", Object.values(posts));
-  
-    const renderedPosts = Object.values(posts)?.slice()?.sort((a, b) => b.date.localeCompare(a.date));
-    console.log({renderedPosts})
+    // const renderedPosts = Object.values(posts)?.slice()?.sort((a, b) => b.date.localeCompare(a.date));
+    const renderedPosts = posts
+      ?.slice()
+      ?.sort((a, b) => b.date.localeCompare(a.date));
     content = renderedPosts.map((post) => (
       <article key={post.id}>
         <h3>{post.title}</h3>
@@ -44,16 +45,13 @@ const PostList = () => {
           <PostAuthor userId={post.userId} />
           <TimeAgo timestamp={post.date} />
         </p>
-        <ReactionButtons post={post}/>
+        <ReactionButtons post={post} />
       </article>
     ));
-
-  } else if (postStatus === "failed") { 
-    console.log("error",postStatus , getErrors);
-    content = <p> { getErrors } </p>;
+  } else if (postStatus === "failed") {
+    console.log("error", postStatus, getErrors);
+    content = <p> {getErrors} </p>;
   }
-
-  
 
   return (
     <section>
