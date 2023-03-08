@@ -38,6 +38,7 @@ const initialState = {
   status: "idle", //'idle'  | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
+console.log("Re ",initialState)
 
 // try catch method
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
@@ -54,6 +55,7 @@ export const publishPost = createAsyncThunk(
   async (val) => {
     try {
       let { title, content, userId } = val;
+      console.log("Pub ",initialState)
       let items = [
           ...initialState.posts,
           {
@@ -119,7 +121,6 @@ const postsSlice = createSlice({
     builder
       .addCase(fetchPosts.pending, (state, action) => {
         console.log("pending");
-
         state.status = "loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -128,9 +129,10 @@ const postsSlice = createSlice({
         console.log("fulfilled");
         console.log(action.payload);
         if (action.payload !== null) {
-          console.log("asd");
+          console.log("asd" ,action.payload);
           state.posts = action.payload;
         }
+        console.log(initialState)
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
@@ -139,7 +141,9 @@ const postsSlice = createSlice({
       })
       .addCase(publishPost.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log("PublishPost succeeded");
+        state.posts = [...state.posts,...action.payload];
+        console.log(state.posts)
+        console.log("PublishPost succeeded ",state.posts);
       });
   },
 });
