@@ -11,14 +11,17 @@ firebase.initializeApp({
 })
 
 console.log(sub(new Date(), { minutes: 5 }).toISOString());
-const postUrl =
-  "https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost.json";
+// const postUrl =
+//   "https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost.json";
 
 const initialState = {
   posts: [],
   status: "idle", //'idle'  | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
+const mapFirebaseToProps = {
+  todos: 'todos'
+}
 console.log("Re ",initialState)
 
 // try catch method
