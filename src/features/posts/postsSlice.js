@@ -2,33 +2,14 @@ import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { sub } from "date-fns";
 
-// import { sub } from 'date-fns';
-// {
-//   id: 1,
-//   title: "Learning Redux Toolkit",
-//   content: "I've heard good things.",
-//   date: sub(new Date(), { minutes: 10 }).toISOString(),
-//   reactions: {
-//     thumbsUp: 0,
-//     wow: 0,
-//     heart: 0,
-//     rocket: 0,
-//     coffee: 0,
-//   },
-// },
-// {
-//   id: 2,
-//   title: "Slices...",
-//   content: "The more I say slice, the more I want pizza.",
-//   date: sub(new Date(), { minutes: 5 }).toISOString(),
-//   reactions: {
-//     thumbsUp: 0,
-//     wow: 0,
-//     heart: 0,
-//     rocket: 0,
-//     coffee: 0,
-//   },
-// },
+import firebase from 'firebase'
+import { connect } from 'react-firebase'
+
+
+firebase.initializeApp({
+  databaseURL: 'https://shopping-bcd0a-default-rtdb.firebaseio.com/'
+})
+
 console.log(sub(new Date(), { minutes: 5 }).toISOString());
 const postUrl =
   "https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost.json";
@@ -73,7 +54,7 @@ export const publishPost = createAsyncThunk(
             date: new Date().toISOString(),
           },
         ];
-      const data = await axios.put(postUrl, items);
+      const data = await axios.post(postUrl, items);
       return items;
     } catch (err) {
       console.log({ err });
@@ -130,9 +111,9 @@ const postsSlice = createSlice({
         console.log(action.payload);
         if (action.payload !== null) {
           console.log("asd" ,action.payload);
-          state.posts = action.payload;
+          state.posts = [...action.payload];
         }
-        console.log(initialState)
+        console.log("state " ,state.posts)
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
