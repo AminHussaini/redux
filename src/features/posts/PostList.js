@@ -20,7 +20,7 @@ const PostList = () => {
       
   useEffect( () => {
     if (postStatus === "idle") {
-      console.log("in")
+      console.log("fetching_posts")
       fetching_posts();
     
     }
@@ -32,23 +32,21 @@ const PostList = () => {
     content = <p> loading... </p>;
   } else if (postStatus === "succeeded") {
     // sort with date
-    // console.log("post ", posts);
-    
-    
-    console.log(posts)
-    // const renderedPosts = posts?.slice()?.sort((a, b) => b.date.localeCompare(a.date));
-    // console.log({renderedPosts})
-    // content = renderedPosts.map((post) => (
-    //   <article key={post.id}>
-    //     <h3>{post.title}</h3>
-    //     <p>{post.content}</p>
-    //     <p className="postCredit">
-    //       <PostAuthor userId={post.userId} />
-    //       <TimeAgo timestamp={post.date} />
-    //     </p>
-    //     <ReactionButtons post={post}/>
-    //   </article>
-    // ));
+    console.log("ALl  ", Object.values(posts));
+  
+    const renderedPosts = Object.values(posts)?.slice()?.sort((a, b) => b.date.localeCompare(a.date));
+    console.log({renderedPosts})
+    content = renderedPosts.map((post) => (
+      <article key={post.id}>
+        <h3>{post.title}</h3>
+        <p>{post.content}</p>
+        <p className="postCredit">
+          <PostAuthor userId={post.userId} />
+          <TimeAgo timestamp={post.date} />
+        </p>
+        <ReactionButtons post={post}/>
+      </article>
+    ));
 
   } else if (postStatus === "failed") { 
     console.log("error",postStatus , getErrors);

@@ -55,9 +55,7 @@ export const publishPost = createAsyncThunk(
   async (val) => {
     try {
       let { title, content, userId } = val;
-      console.log("Pub ",initialState)
-      let items = [
-          ...initialState.posts,
+      let items = 
           {
             id: nanoid(),
             userId,
@@ -71,9 +69,10 @@ export const publishPost = createAsyncThunk(
               coffee: 0,
             },
             date: new Date().toISOString(),
-          },
-        ];
-      const data = await axios.put(postUrl, items);
+          }
+        ;
+      const data = await axios.post(postUrl, items);
+      console.log({data})
       return items;
     } catch (err) {
       console.log({ err });
@@ -120,19 +119,14 @@ const postsSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state, action) => {
-        console.log("pending");
         state.status = "loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = "succeeded";
         // Adding date and reactions
-        console.log("fulfilled");
-        console.log(action.payload);
         if (action.payload !== null) {
-          console.log("asd" ,action.payload);
-          state.posts = action.payload;
+          state.posts = Object.values(action.payload);
         }
-        console.log(initialState)
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.status = "failed";
@@ -140,9 +134,11 @@ const postsSlice = createSlice({
         console.log("rejected");
       })
       .addCase(publishPost.fulfilled, (state, action) => {
+        console.log("State ", state.posts);
+        console.log(action["payload"]);
         state.status = "succeeded";
-        state.posts = [...state.posts,...action.payload];
-        console.log(state.posts)
+        // state.posts =  [state.posts, action["payload"]];
+        state.posts.push(action.payload);
         console.log("PublishPost succeeded ",state.posts);
       });
   },
