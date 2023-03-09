@@ -197,10 +197,6 @@ const postsSlice = createSlice({
         if (action.payload !== null) {
           state.posts = Object.values(action.payload);
         }
-        // console.log("Update ", action.payload, state.posts[id]);
-        // state.posts = action.payload
-        // state.posts =  [state.posts, action["payload"]];
-        // state.posts.push(action.payload);
       })
   },
 });
