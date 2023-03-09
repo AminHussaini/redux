@@ -31,7 +31,7 @@ import { sub } from "date-fns";
 // },
 console.log(sub(new Date(), { minutes: 5 }).toISOString());
 const postUrl =
-  "https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost.json";
+  "https://shopping-bcd0a-default-rtdb.firebaseio.com/";
 
 const initialState = {
   posts: [],
@@ -42,7 +42,7 @@ const initialState = {
 // try catch method
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   try {
-    const response = await axios.get(postUrl);
+    const response = await axios.get(`${postUrl}newPost.json`);
     return response.data;
   } catch (err) {
     return err.message;
@@ -53,8 +53,27 @@ export const UpdateReactions = createAsyncThunk(
   "posts/UpdateReactions",
   async (val) => {
     try {
-      const response = await axios.get(postUrl);
-      console.log({response})
+      let config = {
+        headers: { 
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          'Access-Control-Allow-Credentials': "*",
+          "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+          withCredentials: true
+        },
+        }
+      console.log(val)
+      const response = await axios.get(`${postUrl}newPost.json`);
+      let currentItem = Object.entries(response.data).find((e) => e[1].id === val.postId ? e[0] : null )
+      console.log(currentItem)
+      if (currentItem) {
+        console.log(currentItem[1].reactions[val.reaction])
+        currentItem[1].reactions[val.reaction]++;
+        console.log(currentItem[1].reactions)
+        const updateRes = await axios.put(`https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost/${currentItem[0]}/reactions.json`, currentItem[1].reactions, config);
+        console.log(updateRes.data)
+      }
+
     } catch (err) {
       console.log({ err });
       return err.message;
@@ -82,7 +101,7 @@ export const publishPost = createAsyncThunk(
             date: new Date().toISOString(),
           }
         ;
-      const data = await axios.post(postUrl, items);
+      const data = await axios.post(`${postUrl}newPost.json`, items);
       return items;
     } catch (err) {
       console.log({ err });
