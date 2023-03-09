@@ -61,17 +61,14 @@ export const UpdateReactions = createAsyncThunk(
           "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
           withCredentials: true
         },
-        }
-      console.log(val)
+      }
       const response = await axios.get(`${postUrl}newPost.json`);
       let currentItem = Object.entries(response.data).find((e) => e[1].id === val.postId ? e[0] : null )
       console.log(currentItem)
       if (currentItem) {
-        console.log(currentItem[1].reactions[val.reaction])
         currentItem[1].reactions[val.reaction]++;
-        console.log(currentItem[1].reactions)
         const updateRes = await axios.put(`https://shopping-bcd0a-default-rtdb.firebaseio.com/newPost/${currentItem[0]}/reactions.json`, currentItem[1].reactions, config);
-        console.log(updateRes.data)
+        return response.data
       }
 
     } catch (err) {
@@ -194,6 +191,17 @@ const postsSlice = createSlice({
         state.status = "succeeded";
         // state.posts =  [state.posts, action["payload"]];
         state.posts.push(action.payload);
+      })
+      .addCase(UpdateReactions.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.status = "succeeded";
+        if (action.payload !== null) {
+          state.posts = Object.values(action.payload);
+        }
+        // console.log("Update ", action.payload, state.posts[id]);
+        // state.posts = action.payload
+        // state.posts =  [state.posts, action["payload"]];
+        // state.posts.push(action.payload);
       })
   },
 });
