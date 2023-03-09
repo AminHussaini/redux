@@ -193,7 +193,6 @@ const postsSlice = createSlice({
         state.posts.push(action.payload);
       })
       .addCase(UpdateReactions.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.status = "succeeded";
         if (action.payload !== null) {
           state.posts = Object.values(action.payload);
