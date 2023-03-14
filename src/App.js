@@ -8,14 +8,13 @@ import Routing from "./routes/routes";
 
 export default function App() {
   return (
-      <div>
-        <nav>
-          <Header/>
+    <div>
+      <nav>
+        <Header />
       </nav>
+      {/* 👇️ Wrap your Route components in a Routes component */}
       <Routing />
-        {/* 👇️ Wrap your Route components in a Routes component */}
-        
-      </div>
+    </div>
   );
 }
 
