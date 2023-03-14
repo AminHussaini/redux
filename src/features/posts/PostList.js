@@ -11,7 +11,6 @@ import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 
 const PostList = () => {
-  console.log("PostList")
   const dispatch = useDispatch();
 
   const posts = useSelector(selectAllPosts);
@@ -19,15 +18,13 @@ const PostList = () => {
   const getErrors = useSelector(getPostsError);
 
   const fetching_posts = async () => {
-    const data = await dispatch(fetchPosts());
-    return data;
+    return await dispatch(fetchPosts());
   };
 
   useEffect(() => {
     if (postStatus === "idle") {
       fetching_posts();
     }
-    console.log("asd")
   }, [postStatus, dispatch]);
 
   let content = [];

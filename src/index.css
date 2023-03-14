@@ -67,3 +67,24 @@ form {
   color: whitesmoke;
   font-size: 1rem;
 }
+
+header {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 0;
+}
+header nav ul  {
+  list-style:none;
+  display:flex;
+  gap:10px
+}
+header nav ul a {
+  color: #fff;
+  text-decoration: none;
+  border-right:1px solid #fff;
+  padding:0 20px;
+}
+header nav ul li:last-child a {
+  border-right: 0;
+}
