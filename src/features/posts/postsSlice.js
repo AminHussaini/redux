@@ -134,42 +134,6 @@ const postsSlice = createSlice({
         };
       },
     },
-    // reactionAdded= (state, action) => {
-    //   const { postId, reaction } = action.payload;
-    //   // const response = await axios.get(postUrl);
-    //   console.log(postId, reaction)
-    //   async (val) => {
-    //     try {
-    //       let { title, content, userId } = val;
-    //       let items = 
-    //           {
-    //             id: nanoid(),
-    //             userId,
-    //             title,
-    //             content,
-    //             reactions: {
-    //               thumbsUp: 0,
-    //               wow: 0,
-    //               heart: 0,
-    //               rocket: 0,
-    //               coffee: 0,
-    //             },
-    //             date: new Date().toISOString(),
-    //           }
-    //         ;
-    //       const data = await axios.post(postUrl, items);
-    //       return items;
-    //     } catch (err) {
-    //       console.log({ err });
-    //       return err.message;
-    //     }
-    //   }
-    //   // const existingPost = state.posts.find((post) => post.id === postId);
-    //   // if (existingPost) {
-    //   //   console.log("2 ", postId, reaction)
-    //   //   existingPost.reactions[reaction]++;
-    //   // }
-    // },
   },
   extraReducers(builder) {
     builder
@@ -211,5 +175,7 @@ export const selectAllPosts = (state) => state.posts.posts;
 export const getPostsStatus = (state) => state.posts.status;
 
 export const getPostsError = (state) => state.posts.error;
+
+// export const selectPostById = (state, postId) => state.posts.find(post => console.log("Hello" ,post.id));
 
 export default postsSlice.reducer;

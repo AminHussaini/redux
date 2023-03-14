@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PostAuthor from "./PostAuthor";
 import {
@@ -11,6 +11,7 @@ import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 
 const PostList = () => {
+  console.log("PostList")
   const dispatch = useDispatch();
 
   const posts = useSelector(selectAllPosts);
@@ -26,6 +27,7 @@ const PostList = () => {
     if (postStatus === "idle") {
       fetching_posts();
     }
+    console.log("asd")
   }, [postStatus, dispatch]);
 
   let content = [];
@@ -60,4 +62,4 @@ const PostList = () => {
     </section>
   );
 };
-export default PostList;
+export default memo(PostList);
