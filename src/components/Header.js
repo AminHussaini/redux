@@ -7,10 +7,10 @@ const Header = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/redux/">Home</Link>
           </li>
           <li>
-            <Link to="/add-post">Add Post</Link>
+            <Link to="/post">Add Post</Link>
           </li>
         </ul>
       </nav>

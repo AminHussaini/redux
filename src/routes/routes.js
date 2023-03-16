@@ -1,15 +1,20 @@
 import { Route, Routes } from "react-router-dom";
 import AddPostForm from "../features/posts/AddPostForm";
+import SinglePostPage from "../features/posts/SinglePostPage";
 import PostList from "../features/posts/PostList";
 
 const Routing = () => {
   return (
     <main className="App">
       <Routes>
-        <Route path="/" element={<PostList />} />
-        <Route path="/add-post" element={<AddPostForm />} />
+        <Route path="/redux" element={<PostList />} />
+        
         {/* 👇️ handle dynamic path */}
-        {/* <Route path="/users/:userId" element={<Users />} /> */}
+        <Route path="post">
+          <Route index element={<AddPostForm />} />
+          <Route path=":postId" element={<SinglePostPage />} />
+        </Route>
+
         {/* 👇️ only match this when no other routes match */}
         <Route
           path="*"

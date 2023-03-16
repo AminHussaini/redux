@@ -8,18 +8,15 @@ import ReactionButtons from "./ReactionButtons";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { memo } from "react";
+import { selectPostById } from "./postsSlice";
 
 const SinglePostPage = () => {
   const { postId } = useParams();
 
-  // const post = useSelector((state) => selectPostById(state, Number(postId)));
+  const post = useSelector((state) => selectPostById(state, Number(postId)));
 
-  // if (!post) {
-  //   return (
-  //     <section>
-  //       <h2>Post not found!</h2>
-  //     </section>
-  //   );
+  // if (!post) { 
+
   // }
 
   return (

@@ -176,6 +176,6 @@ export const getPostsStatus = (state) => state.posts.status;
 
 export const getPostsError = (state) => state.posts.error;
 
-// export const selectPostById = (state, postId) => state.posts.find(post => console.log("Hello" ,post.id));
+export const selectPostById = (state, postId) => state.posts.find(post => console.log("Hello" ,post.id));
 
 export default postsSlice.reducer;
