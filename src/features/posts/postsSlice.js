@@ -169,13 +169,14 @@ const postsSlice = createSlice({
 export const { postAdded } = postsSlice.actions;
 
 // For all the post
-export const selectAllPosts = (state) => state.posts.posts;
+export const selectAllPosts = (state) => state?.posts?.posts;
 
 //
-export const getPostsStatus = (state) => state.posts.status;
+export const getPostsStatus = (state) => state?.posts?.status;
 
-export const getPostsError = (state) => state.posts.error;
+export const getPostsError = (state) => state?.posts?.error;
 
-export const selectPostById = (state, postId) => state.posts.find(post => console.log("Hello" ,post.id));
+export const selectPostById = (state, postId) => state?.posts?.find(post => post?.id === postId);
+// export const selectPostById = (state, postId) => console.log(state)
 
 export default postsSlice.reducer;

@@ -7,30 +7,43 @@ import ReactionButtons from "./ReactionButtons";
 
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { memo } from "react";
-import { selectPostById } from "./postsSlice";
+import { memo, useEffect } from "react";
+import { selectPostById,selectAllPosts } from "./postsSlice";
 
 const SinglePostPage = () => {
   const { postId } = useParams();
+  // console.log(selectPostById());
+  // useEffect(() => {
+    
+  // }, [])
+  console.log("asdasd" ,selectAllPosts());
 
-  const post = useSelector((state) => selectPostById(state, Number(postId)));
-
-  // if (!post) { 
-
-  // }
+  const post = useSelector(selectAllPosts);
+  let singlePost =  post.find(item => {
+    return item.id === postId
+  })
+  if (!post) { 
+    return(
+    <section>
+      <h1>No Post Found</h1>
+    </section>)
+  }
 
   return (
-    <h1>Single Post </h1>
-    // <article>
-    //   <h2>{post.title}</h2>
-    //   <p>{post.body}</p>
-    //   <p className="postCredit">
-    //     <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
-    //     <PostAuthor userId={post.userId} />
-    //     <TimeAgo timestamp={post.date} />
-    //   </p>
-    //   <ReactionButtons post={post} />
-    // </article>
+    <>
+    <h1>Single Post</h1>
+    <article>
+      <h2>{singlePost.title} asd</h2>
+      <p>{singlePost.content}</p>
+      <p className="postCredit">
+          <Link style={{color:"#fff"}} to={`/post/edit/${singlePost.id}`}>Edit Post</Link> &nbsp;&nbsp;
+          
+        <PostAuthor userId={singlePost.userId} />
+        <TimeAgo timestamp={singlePost.date} />
+      </p>
+      <ReactionButtons post={singlePost} />
+    </article>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import { memo, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import PostAuthor from "./PostAuthor";
 import {
   selectAllPosts,
@@ -41,10 +42,15 @@ const PostList = () => {
         <h3>{post.title}</h3>
         <p>{post.content}</p>
         <p className="postCredit">
+          
           <PostAuthor userId={post.userId} />
           <TimeAgo timestamp={post.date} />
         </p>
         <ReactionButtons post={post} />
+        <br />
+        <h5>
+          <Link Link style={{color:"white",display:"inline-block"}} to={`post/${post.id}`}>View Post</Link>
+        </h5>
       </article>
     ));
   } else if (postStatus === "failed") {

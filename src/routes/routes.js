@@ -10,10 +10,10 @@ const Routing = () => {
         <Route path="/redux" element={<PostList />} />
         
         {/* 👇️ handle dynamic path */}
-        <Route path="post">
-          <Route index element={<AddPostForm />} />
-          <Route path=":postId" element={<SinglePostPage />} />
-        </Route>
+        <Route path="post" element={<AddPostForm />} />
+        <Route path="redux/post/:postId" element={<SinglePostPage />} />
+        {/* <Route path="post">
+        </Route> */}
 
         {/* 👇️ only match this when no other routes match */}
         <Route
